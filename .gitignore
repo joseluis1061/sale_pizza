@@ -38,3 +38,4 @@ out/
 
 #aplication-dev
 application-dev.properties
+src/main/resources/application-dev.properties
