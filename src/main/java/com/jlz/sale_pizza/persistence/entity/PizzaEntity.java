@@ -23,7 +23,7 @@ public class PizzaEntity {
   private String description;
 
   @Column(nullable = false, length = 150)
-  private String price;
+  private Double price;
 
   @Column(columnDefinition = "TINYINT")
   private Boolean vegetarian;
@@ -32,5 +32,5 @@ public class PizzaEntity {
   private Boolean vegan;
 
   @Column(columnDefinition = "TINYINT", nullable = false)
-  private Boolean avaible;
+  private Boolean available;
 }
