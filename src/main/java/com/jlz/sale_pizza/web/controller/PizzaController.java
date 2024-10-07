@@ -48,4 +48,14 @@ public class PizzaController {
     return ResponseEntity.badRequest().build();
   }
 
+  @DeleteMapping("/delete/{idPizza}")
+  public ResponseEntity<Void> deletePizza(@PathVariable Integer idPizza){
+    if(this.pizzaService.existPizza(idPizza)){
+      this.pizzaService.deletePizza(idPizza);
+      return ResponseEntity.ok().build();
+    }else{
+      return ResponseEntity.badRequest().build();
+    }
+  }
+
 }
