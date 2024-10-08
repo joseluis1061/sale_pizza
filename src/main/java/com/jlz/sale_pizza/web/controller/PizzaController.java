@@ -32,6 +32,42 @@ public class PizzaController {
     return ResponseEntity.ok(pizzas);
   }
 
+  @GetMapping("/available")
+  public ResponseEntity<List<PizzaEntity>> getAllAvailable(){
+    List<PizzaEntity> pizzas = pizzaService.getAvailable();
+    if(pizzas == null){
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(pizzas);
+  }
+
+  @GetMapping("/pizzaByName/{name}")
+  public ResponseEntity<PizzaEntity> getPizzaByName(@PathVariable String name){
+    PizzaEntity pizza = pizzaService.getPizzaByName(name);
+    if(pizza == null){
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(pizza);
+  }
+
+  @GetMapping("/withIngredient/{ingredient}")
+  public ResponseEntity<List<PizzaEntity> > getPizzaWithIngredient(@PathVariable String ingredient){
+    List<PizzaEntity>  pizzas = pizzaService.getPizzaByDescriptionWith(ingredient);
+    if(pizzas == null){
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(pizzas);
+  }
+
+  @GetMapping("/withOutIngredient/{ingredient}")
+  public ResponseEntity<List<PizzaEntity>> getPizzaWithOutIngredient(@PathVariable String ingredient){
+    List<PizzaEntity>  pizzas = pizzaService.getPizzaByDescriptionWithOut(ingredient);
+    if(pizzas == null){
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(pizzas);
+  }
+
   @PostMapping("/save")
   public ResponseEntity<PizzaEntity> savePizza(@RequestBody PizzaEntity pizza){
     if(pizza.getIdPizza() == null || !this.pizzaService.existPizza(pizza.getIdPizza())){
