@@ -41,6 +41,13 @@ public class PizzaController {
     return ResponseEntity.ok(pizzas);
   }
 
+  @GetMapping("/count-vegetarian")
+  public ResponseEntity<Integer> countVegetarian(){
+    int count = pizzaService.getCountPizzaVegetar();
+    return ResponseEntity.ok(count);
+  }
+
+
   @GetMapping("/pizzaByName/{name}")
   public ResponseEntity<PizzaEntity> getPizzaByName(@PathVariable String name){
     PizzaEntity pizza = pizzaService.getPizzaByName(name);

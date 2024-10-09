@@ -26,4 +26,22 @@ public class OrderController {
     return ResponseEntity.ok(orders);
   }
 
+  @GetMapping("/today")
+  public ResponseEntity<List<OrderEntity>> getTodayOrders(){
+    List<OrderEntity> orders = orderService.getTodayOrders();
+    if(orders == null){
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(orders);
+  }
+
+  @GetMapping("/outside")
+  public ResponseEntity<List<OrderEntity>> getOutside(){
+    List<OrderEntity> orders = orderService.getOrdersOutside();
+    if(orders == null){
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(orders);
+  }
+
 }

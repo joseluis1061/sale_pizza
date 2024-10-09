@@ -43,6 +43,11 @@ public class PizzaService {
     return this.pizzaRepository.findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(ingredient);
   }
 
+  public int getCountPizzaVegetar(){
+    return this.pizzaRepository.countByVegetarianTrueAndAvailableTrue();
+  }
+
+
   public PizzaEntity addPizza(PizzaEntity pizza){
     return this.pizzaRepository.save(pizza);
   }
