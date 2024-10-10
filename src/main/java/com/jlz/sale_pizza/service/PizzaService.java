@@ -47,6 +47,13 @@ public class PizzaService {
     return this.pizzaRepository.countByVegetarianTrueAndAvailableTrue();
   }
 
+  public PizzaEntity getFirstByName(String name){
+    return this.pizzaRepository.findFirstByNameIgnoreCase(name).orElseThrow(()-> new RuntimeException("No existe pizza con este nombre"));
+  }
+
+  public List<PizzaEntity> getCheapest(Double price) {
+    return this.pizzaRepository.findTop3FindByPriceLessThanEqual(price);
+  }
 
   public PizzaEntity addPizza(PizzaEntity pizza){
     return this.pizzaRepository.save(pizza);

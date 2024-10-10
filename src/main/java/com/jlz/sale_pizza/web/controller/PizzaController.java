@@ -41,6 +41,24 @@ public class PizzaController {
     return ResponseEntity.ok(pizzas);
   }
 
+  @GetMapping("/first-by-name/{name}")
+  public ResponseEntity<PizzaEntity> getFirstByName(@PathVariable String name){
+    PizzaEntity pizza = pizzaService.getFirstByName(name);
+    if(pizza == null){
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(pizza);
+  }
+
+  @GetMapping("/getCheapest/{price}")
+  public ResponseEntity<List<PizzaEntity>> getPizzaCheapest(@PathVariable Double price){
+    List<PizzaEntity> pizza = pizzaService.getCheapest(price);
+    if(pizza == null){
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(pizza);
+  }
+
   @GetMapping("/count-vegetarian")
   public ResponseEntity<Integer> countVegetarian(){
     int count = pizzaService.getCountPizzaVegetar();
