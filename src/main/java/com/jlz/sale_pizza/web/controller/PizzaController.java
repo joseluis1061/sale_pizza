@@ -3,6 +3,7 @@ package com.jlz.sale_pizza.web.controller;
 import com.jlz.sale_pizza.persistence.entity.PizzaEntity;
 import com.jlz.sale_pizza.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,9 @@ public class PizzaController {
   private PizzaService pizzaService;
 
   @GetMapping
-  public ResponseEntity<List<PizzaEntity>> getAll(){
-    List<PizzaEntity> pizzas = pizzaService.getAll();
+  public ResponseEntity<Page<PizzaEntity>> getAll(@RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "5") int items){
+    Page<PizzaEntity> pizzas = pizzaService.getAll(page, items);
     if(pizzas == null){
       return ResponseEntity.notFound().build();
     }
