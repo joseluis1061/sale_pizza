@@ -23,14 +23,14 @@ public class PizzaService {
     this.pizzaPagSortRepository = pizzaPagSortRepository;
   }
 
-  public Page<PizzaEntity> getAll(int page, int elements){
-    Pageable pageRequest = PageRequest.of(page, elements);
-    return this.pizzaPagSortRepository.findAll(pageRequest);
+  public Page<PizzaEntity> getAll(int page, int elements) {
+    return this.pizzaPagSortRepository.findAll(PageRequest.of(page, elements));
   }
 
-  public Page<PizzaEntity> getAvailable(int page, int elements, String sortBy){
-    Pageable pageRequest = PageRequest.of(page, elements, Sort.by(sortBy));
-    return this.pizzaPagSortRepository.findAllByAvailableTrue(pageRequest);
+  public Page<PizzaEntity> getAvailable(int page, int elements, String sortBy, String sortDirection){
+    Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+    Pageable pageRequest = PageRequest.of(page, elements, sort);
+    return this.pizzaPagSortRepository.findByAvailableTrue(pageRequest);
   }
 
   public List<PizzaEntity> getUnavailable(){
