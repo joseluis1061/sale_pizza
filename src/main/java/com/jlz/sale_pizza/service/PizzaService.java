@@ -6,9 +6,10 @@ import com.jlz.sale_pizza.persistence.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -23,15 +24,17 @@ public class PizzaService {
   }
 
   public Page<PizzaEntity> getAll(int page, int elements){
-    return this.pizzaPagSortRepository.findAll(PageRequest.of(page, elements));
+    Pageable pageRequest = PageRequest.of(page, elements);
+    return this.pizzaPagSortRepository.findAll(pageRequest);
+  }
+
+  public Page<PizzaEntity> getAvailable(int page, int elements, String sortBy){
+    Pageable pageRequest = PageRequest.of(page, elements, Sort.by(sortBy));
+    return this.pizzaPagSortRepository.findAllByAvailableTrue(pageRequest);
   }
 
   public List<PizzaEntity> getUnavailable(){
     return this.pizzaRepository.findAllByAvailable(false);
-  }
-
-  public List<PizzaEntity> getAvailable(){
-    return this.pizzaRepository.findAllByAvailableTrueOrderByPrice();
   }
 
   public PizzaEntity getPizzaByName(String name){

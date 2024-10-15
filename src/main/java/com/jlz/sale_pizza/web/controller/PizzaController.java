@@ -1,6 +1,7 @@
 package com.jlz.sale_pizza.web.controller;
 
 import com.jlz.sale_pizza.persistence.entity.PizzaEntity;
+import com.jlz.sale_pizza.persistence.repository.PizzaPagSortRepository;
 import com.jlz.sale_pizza.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,10 +16,23 @@ public class PizzaController {
   @Autowired
   private PizzaService pizzaService;
 
-  @GetMapping
+  @Autowired
+
+  @GetMapping("/{page}/{items}")
   public ResponseEntity<Page<PizzaEntity>> getAll(@RequestParam(defaultValue = "0") int page,
-                                                  @RequestParam(defaultValue = "5") int items){
-    Page<PizzaEntity> pizzas = pizzaService.getAll(page, items);
+                                                  @RequestParam(defaultValue = "8") int elements){
+    Page<PizzaEntity> pizzas = pizzaService.getAll(page, elements);
+    if(pizzas == null){
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(pizzas);
+  }
+
+  @GetMapping("/available")
+  public ResponseEntity<Page<PizzaEntity>> getAllAvailable(@RequestParam(defaultValue = "0") int page,
+                                                           @RequestParam(defaultValue = "8") int elements,
+                                                           @RequestParam(defaultValue = "price") String sortBy){
+    Page<PizzaEntity> pizzas = pizzaService.getAvailable(page, elements, sortBy);
     if(pizzas == null){
       return ResponseEntity.notFound().build();
     }
@@ -34,14 +48,7 @@ public class PizzaController {
     return ResponseEntity.ok(pizzas);
   }
 
-  @GetMapping("/available")
-  public ResponseEntity<List<PizzaEntity>> getAllAvailable(){
-    List<PizzaEntity> pizzas = pizzaService.getAvailable();
-    if(pizzas == null){
-      return ResponseEntity.notFound().build();
-    }
-    return ResponseEntity.ok(pizzas);
-  }
+
 
   @GetMapping("/first-by-name/{name}")
   public ResponseEntity<PizzaEntity> getFirstByName(@PathVariable String name){
