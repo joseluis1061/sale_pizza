@@ -1,7 +1,9 @@
 package com.jlz.sale_pizza.service;
 
 import com.jlz.sale_pizza.persistence.entity.OrderEntity;
+import com.jlz.sale_pizza.persistence.projection.OrderSumary;
 import com.jlz.sale_pizza.persistence.repository.OrderRepository;
+import org.hibernate.query.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,14 @@ public class OrderService {
     return this.orderRepository.findAllByMethodIn(methods);
   }
 
+  public List<OrderEntity> getByCustomerid(String idCustomer){
+    return this.orderRepository.findByCustomerId(idCustomer);
+  }
+
+  public OrderSumary getOrderSumary(int orderId){
+    return this.orderRepository.finSumary(orderId);
+  }
+
   public Optional<OrderEntity> getById(Integer idOrder){
     return this.orderRepository.findById(idOrder);
   }
@@ -53,4 +63,6 @@ public class OrderService {
   public void deleteOrderBiId(int idOrder){
     this.orderRepository.deleteById(idOrder);
   }
+
+
 }

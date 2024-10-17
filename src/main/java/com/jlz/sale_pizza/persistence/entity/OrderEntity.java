@@ -38,6 +38,7 @@ public class OrderEntity {
   private String additionalNotes;
 
   @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+  @OrderBy("price DES")
   private List<OrderItemEntity> items;
 
   @OneToOne(fetch = FetchType.LAZY)
