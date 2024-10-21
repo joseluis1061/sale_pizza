@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class UpdatePizzaPriceDto {
-  private int pizzaId;
+  private Integer pizzaId;
   private double newPrice;
 }

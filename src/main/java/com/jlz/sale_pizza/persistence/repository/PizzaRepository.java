@@ -1,6 +1,7 @@
 package com.jlz.sale_pizza.persistence.repository;
 
 import com.jlz.sale_pizza.persistence.entity.PizzaEntity;
+import com.jlz.sale_pizza.service.dto.UpdatePizzaPriceDto;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
@@ -27,11 +28,11 @@ public interface PizzaRepository extends ListCrudRepository<PizzaEntity, Integer
 
   List<PizzaEntity> findTop3FindByPriceLessThanEqual(Double price);
 
-  @Query(value = "UPDATE pizza" +
-      "SET price = :newPrice" +
-      "WHERE id_pizza = :pizzaId", nativeQuery = true)
+  @Query(value = "UPDATE pizza " +
+      "SET price = :#{#dtoPizza.newPrice} " +
+      "WHERE id_pizza = :#{#dtoPizza.pizzaId}", nativeQuery = true)
   @Modifying
-  void updatePrice(@Param("pizzaId") int pizzaId, @Param("newPrice") double newPrice);
+  void updatePrice(@Param("dtoPizza") UpdatePizzaPriceDto dto);
 
 
 }

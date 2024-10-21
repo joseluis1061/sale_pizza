@@ -3,6 +3,7 @@ package com.jlz.sale_pizza.web.controller;
 import com.jlz.sale_pizza.persistence.entity.PizzaEntity;
 import com.jlz.sale_pizza.persistence.repository.PizzaPagSortRepository;
 import com.jlz.sale_pizza.service.PizzaService;
+import com.jlz.sale_pizza.service.dto.UpdatePizzaPriceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -47,8 +48,6 @@ public class PizzaController {
     }
     return ResponseEntity.ok(pizzas);
   }
-
-
 
   @GetMapping("/first-by-name/{name}")
   public ResponseEntity<PizzaEntity> getFirstByName(@PathVariable String name){
@@ -106,6 +105,15 @@ public class PizzaController {
   public ResponseEntity<PizzaEntity> savePizza(@RequestBody PizzaEntity pizza){
     if(pizza.getIdPizza() == null || !this.pizzaService.existPizza(pizza.getIdPizza())){
       return ResponseEntity.ok(pizzaService.addPizza(pizza));
+    }
+    return ResponseEntity.badRequest().build();
+  }
+
+  @PatchMapping("/updatePrice")
+  public ResponseEntity<PizzaEntity> updatePricePizza(@RequestBody UpdatePizzaPriceDto dto){
+    if(this.pizzaService.existPizza(dto.getPizzaId())){
+      pizzaService.updatePrice(dto);
+      return ResponseEntity.ok().build();
     }
     return ResponseEntity.badRequest().build();
   }
