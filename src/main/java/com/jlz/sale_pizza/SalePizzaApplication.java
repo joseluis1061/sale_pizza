@@ -9,9 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 @EnableJpaAuditing
 public class SalePizzaApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(SalePizzaApplication.class, args);
 	}
-
 }
