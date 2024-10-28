@@ -3,6 +3,7 @@ package com.jlz.sale_pizza.persistence.repository;
 import com.jlz.sale_pizza.persistence.entity.OrderEntity;
 import com.jlz.sale_pizza.persistence.projection.OrderSumary;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,4 +28,8 @@ public interface OrderRepository extends ListCrudRepository<OrderEntity, Integer
       "WHERE po.id_order = :orderId " +
       "GROUP BY po.id_order, cu.name, po.date, po.total", nativeQuery = true)
   OrderSumary finSumary(@Param("orderId") int orderId);
+
+  //  llamada al store procedure de pizza random con descuento
+  @Procedure(value = "take_random_pizza_order", outputParameterName = "order_taken")
+  boolean saveRandomOrder(@Param("id_customer") String idCustomer, @Param("method") String method);
 }

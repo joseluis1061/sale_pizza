@@ -3,8 +3,11 @@ package com.jlz.sale_pizza.service;
 import com.jlz.sale_pizza.persistence.entity.OrderEntity;
 import com.jlz.sale_pizza.persistence.projection.OrderSumary;
 import com.jlz.sale_pizza.persistence.repository.OrderRepository;
+import com.jlz.sale_pizza.service.dto.RandomOrderDto;
+import jakarta.transaction.Transactional;
 import org.hibernate.query.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -64,5 +67,9 @@ public class OrderService {
     this.orderRepository.deleteById(idOrder);
   }
 
+  @Transactional
+  public boolean saveRandomOrder(RandomOrderDto randomOrderDto){
+    return this.orderRepository.saveRandomOrder(randomOrderDto.getIdCustomer(), randomOrderDto.getMethod());
+  }
 
 }
