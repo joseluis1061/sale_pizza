@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "user")
 @Getter
@@ -27,4 +29,6 @@ public class UserEntity {
   @Column(name = "disabled", columnDefinition = "TINYINT")
   private Boolean disabled;
 
+  @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+  private List<UserRoleEntity> roles;
 }
