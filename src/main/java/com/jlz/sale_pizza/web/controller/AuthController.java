@@ -27,16 +27,19 @@ public class AuthController {
 
   @PostMapping("/login")
   public ResponseEntity<Void> login(@RequestBody LoginDto loginDto){
+    // Crear un token de atutenticación
     UsernamePasswordAuthenticationToken login = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+    // Enviar el usuario para corroborar si pasa  los filtros
     Authentication authentication = this.authenticationManager.authenticate(login);
+    // Si un filtro no pasa se detiene el proceso y retorna un error
 
-    System.out.println(authentication.isAuthenticated());
+    // Si pasa podemos ver el código en este caso imprimimos los valores
+    System.out.println("Usaurio autenticado: "+authentication.isAuthenticated());
     System.out.println(authentication.getPrincipal());
 
+    // Creamos el jwt con los datos del usuario
     String jwt = this.jwtUtil.create(loginDto.getUsername());
-
+    // Retornamos los datos con el header de autorización jwt
     return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, jwt).build();
   }
-
-
 }
