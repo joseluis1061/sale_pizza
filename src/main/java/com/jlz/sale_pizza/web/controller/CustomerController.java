@@ -1,7 +1,10 @@
 package com.jlz.sale_pizza.web.controller;
 
 import com.jlz.sale_pizza.persistence.entity.CustomerEntity;
+import com.jlz.sale_pizza.persistence.entity.OrderEntity;
+import com.jlz.sale_pizza.persistence.projection.OrderSumary;
 import com.jlz.sale_pizza.service.CustomerService;
+import com.jlz.sale_pizza.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +18,13 @@ import java.util.List;
 @RequestMapping("/api/customer")
 public class CustomerController {
 
-  @Autowired
   private final CustomerService customerService;
+  private final OrderService orderService;
 
-  public CustomerController(CustomerService customerService) {
+  @Autowired
+  public CustomerController(CustomerService customerService, OrderService orderService) {
     this.customerService = customerService;
+    this.orderService = orderService;
   }
 
   @GetMapping
@@ -40,5 +45,13 @@ public class CustomerController {
     return ResponseEntity.ok(customer);
   }
 
+  @GetMapping("/byCustomerId/{idCustomer}")
+  public ResponseEntity<List<OrderEntity>> getByCustomerId(@PathVariable String idCustomer){
+    List<OrderEntity> orders = this.orderService.getByCustomerid(idCustomer);
+    if(orders == null){
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(orders);
+  }
 
 }

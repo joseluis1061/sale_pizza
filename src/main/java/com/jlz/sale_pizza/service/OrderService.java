@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.hibernate.query.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class OrderService {
   private final OrderRepository orderRepository;
@@ -42,6 +44,7 @@ public class OrderService {
     return this.orderRepository.findAllByMethodIn(methods);
   }
 
+  @Secured("ROLE_ADMIN")
   public List<OrderEntity> getByCustomerid(String idCustomer){
     return this.orderRepository.findByCustomerId(idCustomer);
   }
